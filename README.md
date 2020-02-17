@@ -1,5 +1,5 @@
 # woody_woodpacker
-Clone an executable file into another executable file with the same execution adding data and a secret signatute
+Clone an executable file into another crypted executable file with the same execution (decryted) adding data and a secret signatute
 
 # ONLY FOR EDUCATIONAL PURPOSE
 
