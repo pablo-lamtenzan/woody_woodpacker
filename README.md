@@ -4,8 +4,8 @@ Clone an executable file into another executable file with the same execution ad
 # ONLY FOR EDUCATIONAL PURPOSE
 
 # Did 
-- Code all program architecture (parse, elfunctions, display)
-- All elf64 management
+- Code all program architecture (parse, elf64 functions, display)
+- All elf64 (Execution and Linking Format 64bits) management
 - Endian management
 
 # TO DO
