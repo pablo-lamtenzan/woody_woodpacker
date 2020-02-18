@@ -1,5 +1,5 @@
 # woody_woodpacker
-Clone an executable file into another crypted executable file with the same execution (decryted) adding data and a secret signatute
+Program takes an execution image, encrypt's data (packing at the same time) and clone's it, and finally append's a payload (a task) where the processor can't find it (unused data after last section's end).
 
 # ONLY FOR EDUCATIONAL PURPOSE
 
