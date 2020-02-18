@@ -1,5 +1,5 @@
 
-#include "woody_woodpacker.h"
+#include <woody_woodpacker.h>
 
 /* put this in a header an dinclude it to wwpck.c */
 typedef static const struct     t_format[FRMT_SIZE] =

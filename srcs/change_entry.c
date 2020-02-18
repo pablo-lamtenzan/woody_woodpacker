@@ -1,5 +1,5 @@
-#include "elf64.h"
-#include "woody_woodpacker.h"
+#include <elf64.h>
+#include <woody_woodpacker.h>
 
 char                change_entry(const t_data *origin)
 {

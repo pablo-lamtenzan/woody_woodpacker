@@ -1,6 +1,6 @@
 
-#include "woody_woodpacker.h"
-#include "elf64.h"
+#include <woody_woodpacker.h>
+#include <elf64.h>
 
 char                adjust_sizes(size_t shift_amount)
 {

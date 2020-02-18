@@ -1,6 +1,6 @@
 
-#include "elf64.h"
-#include "woody_woodpacker.h"
+#include <elf64.h>
+#include <woody_woodpacker.h>
 
 static size_t       align_shift_amount(size_t payload_size, size_t alignment)
 {

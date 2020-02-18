@@ -1,6 +1,6 @@
 
-#include "elf64.h"
-#include "woody_woodpacker.h"
+#include <elf64.h>
+#include <woody_woodpacker.h>
 
 char            elf64_packer(size_t origin_file_size)
 {

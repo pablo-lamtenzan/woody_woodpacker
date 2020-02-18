@@ -1,6 +1,6 @@
 
-#include "elf64.h"
-#include "woody_woodpacker.h"
+#include <elf64.h>
+#include <woody_woodpacker.h>
 
 static char         copy_sections(size_t last_section_end)
 {

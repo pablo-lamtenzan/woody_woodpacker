@@ -1,5 +1,5 @@
-#include "elf64.h"
-#include "woody_woodpacker.h"
+#include <elf64.h>
+#include <woody_woodpacker.h>
 
 char                    check_elf64_identifier(void)
 {

@@ -1,7 +1,7 @@
 /* DID SHIT WITH CONST DECLARATIONS*/
 
-#include "elf64.h"
-#include "woody_woodpacker.h"
+#include <elf64.h>
+#include <woody_woodpacker.h>
 
 static t_data           *stored_entry;
 static Elf64_Ehdr       *Elf64_hdr_adrr;

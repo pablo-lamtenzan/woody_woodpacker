@@ -1,4 +1,4 @@
-#include "woody_woodpacker.h"
+#include <woody_woodpacker.h>
 
 int         woody_woodpacker(char ac, char **argv)
 {
@@ -7,7 +7,7 @@ int         woody_woodpacker(char ac, char **argv)
 
     if (ac != 2)
         return (0); // ERR_USE
-    if (!(size_of_file = read_file(av[1])))
+    if (!(size_of_file = read_file(argv[1])))
         return (0);
     if ((format = get_format()) == FRMT_SIZE)
         return (0);  // ERR_USE not a valid file as input

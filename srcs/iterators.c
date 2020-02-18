@@ -1,8 +1,8 @@
 
 /* DID SHIT WITH CONST DECLARATIONS */
 
-#include "woody_woodpacker.h"
-#include "elf64.h"
+#include <woody_woodpacker.h>
+#include <elf64.h>
 
 char                        foreach_phdr(f_safe_accessor safe, f_iter_callback callback)
 {
