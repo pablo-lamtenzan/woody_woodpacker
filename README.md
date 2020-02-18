@@ -1,5 +1,5 @@
 # woody_woodpacker
-Program takes an execution image, encrypt's data (packing at the same time) and clone's it, and finally append's a payload (a task) where the processor can't find it (unused data after last section's end).
+Program takes an execution image, encrypt's data (packing at the same time) and clone's it, and finally append's a payload (a task) where the processor can't detect it (unused data after last section's end).
 
 # ONLY FOR EDUCATIONAL PURPOSE
 
