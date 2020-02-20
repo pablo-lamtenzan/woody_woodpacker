@@ -6,11 +6,11 @@
 /*   By: plamtenz <plamtenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 03:00:09 by plamtenz          #+#    #+#             */
-/*   Updated: 2020/02/19 03:09:49 by plamtenz         ###   ########.fr       */
+/*   Updated: 2020/02/20 02:51:59 by plamtenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bin_packer.h"
+#include <bin_packer.h>
 
 Elf64_Phdr              *goto_next_segment_x64(t_packer *data, Elf64_Ehdr * elf64_hdr, size_t seg_index)
 {

@@ -1,6 +1,15 @@
 #ifndef BIN_PACKER_H
 # define BIN_PACKER_H
 
+/*
+    TO DO:
+- Have some bad class in elf_file_injection.c
+- Have to code gen key
+- Have to code encrypter
+- Have to add endians better
+- Have to delete all warnings
+*/
+
 # include <stdlib.h>
 # include <stdio.h>
 # include <fcntl.h>
@@ -23,6 +32,9 @@
 #define ELF_MAGIC           0x464C457F
 #define PAYLOAD_SIZE        374
 #define PAGE_SIZE           4096
+#define ENTRY_SEGMENT       "entry segment"
+#define ENTRY_SECTION       "entry section"
+#define LAST_SECTION        "last section"
 
 /*
 **      --> FORMAT CONSTANTS
@@ -36,11 +48,10 @@
 /*
 **      --> ERROR CONSTANTS
 */
-#define ERR_SYS                 0 //syscall failure
+#define ERR_SYS                 0 // syscall failure
 #define ERR_THROW               1 // throw val from a fct
 #define ERR_USE                 2 // bad usage
 #define ERR_CORUPT              3 // corrupt file
-#define ERR_TOTAL               4 // nb of err
 
 /*
 **      --> ATTRIBUTES (NO WARNINGS)
@@ -89,13 +100,50 @@ typedef struct              s_packer
 /*
 **      --> .TEXT
 */
-void                        error(char *code, char *message);
 
+/*
+**      --> ERROR MANAGEMENT
+*/
+void                            error(char code, char *message);
 
+/*
+**      --> PACKER METHODS
+*/
+t_elf64                         *find_entry(t_packer *data);
+bool                            uptade_elf64_header(t_elf64 *elf64_hdr);
+bool                            infect_elf_file_x64(t_packer *data);
+void                            identifier_criteria_x64(t_packer *data);
+void                            create_infected_elf_x64(t_packer *pack, t_elf64 *data);
+
+/*
+**      --> INIT AND END
+*/
+void                            read_file(char *filename, t_packer *data);
+void				            free_map(t_packer *data);
+
+/*
+**      --> ITERATORS
+*/
+Elf64_Shdr                      *goto_next_section_x64(t_packer *data,
+        Elf64_Ehdr *elf64_hdr, size_t sect_index);
+Elf32_Shdr                      *goto_next_section_x32(t_packer *data,
+        Elf32_Ehdr *elf32_hdr, size_t sect_index);
+Elf64_Phdr                      *goto_next_segment_x64(t_packer *data,
+        Elf64_Ehdr * elf64_hdr, size_t seg_index);
+Elf32_Phdr                      *goto_next_segment_x32(t_packer *data,
+        Elf32_Ehdr * elf32_hdr, size_t seg_index);
+
+/*
+**      --> ENDIAN MANAGEMENT
+*/
 uint16_t                        endian_16bits(uint16_t x);
 uint32_t                        endian_32bits(uint32_t x);
 uint64_t                        endian_64bits(uint64_t x);
 void                            isbig(char _isbig);
 
+/*
+**      --> WOODY WOODPACKER
+*/
+int                             woody_woodpacker(int ac, char **argv);
 
 #endif

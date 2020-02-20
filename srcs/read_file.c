@@ -1,49 +1,48 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   read_file.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: plamtenz <plamtenz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/19 02:08:38 by plamtenz          #+#    #+#             */
+/*   Updated: 2020/02/20 02:52:40 by plamtenz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <woody_woodpacker.h>
-
-typedef static struct   s_adrr
-{
-    void                *adrr;
-    size_t              size;
-}                       t_adrr = {NULL, 0};
+#include <bin_packer.h>
 
 __warn_unused_result
-size_t              read_file(const char *name)
+void                    read_file(char *filename, t_packer *data)
 {
-    void            *addr;
-    struct stat     buff;
-    int             fd;
+	struct stat         buff;
 
-    if ((fd = open(name, O_RDONLY)) < 0)
-        return (0); // SYS ERROR
-    if (fstat(fd, &buff) < 0)
-        return (0); // SYS ERROR
-    if (buff.st_mode & S_IFDIR)
-        return (0); // SYS ERROR can t parse directories
-    if ((addr = mmap(0, buff.st_size, PROT_READ, MAP_PRIVATE, fd, 0)) == MAP_MAILED)
-        return (0); // SYS ERROR
-    if (close(fd))
-        return (0); // SYS ERROR 
-
-    t_adrr.adrr = addr;
-    t_adrr.size = buff.st_size;
-    return (buff.st_size);
+	if ((data->fd = open(filename, O_RDONLY)) < 0)
+		error(ERR_SYS, "Can't open the executable file\n");
+	if (fstat(data->fd, &buff) < 0)
+	{
+		close(data->fd);
+		error(ERR_SYS, "fstat() failed\n");
+	}
+	if (buff.st_mode & S_IFDIR)
+	{
+		close(data->fd);
+		error(ERR_CORUPT, "Can't parse diectories\n");
+	}
+	if ((data->map = mmap(0, buff.st_size, PROT_READ | PROT_WRITE, MAP_PRIVATE,
+			data->fd, 0)) == MAP_FAILED)
+	{
+		close(data->fd);
+        error(ERR_SYS, "mmap() failed\n");
+	}
+	data->size = buff.st_size;
 }
 
-__warn_unused_result
-char                free_adrr(void)
+void				free_map(t_packer *data)
 {
-    if (adrr)
-        if (munmap(t_adrr.addr, t_adrr.size))
-            return (0); // SYS ERROR
-    return (1);
-}
-
-// get the original adrr of the file if posible
-__warn_unused_result
-void                *get_origin_adrr(const size_t offset, const size_t size)
-{
-    if (size < 0 || offset + size > t_adrr.size)
-        return (NULL);
-    return (t_adrr.adrr + offset);
+	if ((close(data->fd)) < 0)
+		error(ERR_SYS, "Can't close the file\n");
+	if (data->map)
+		if (munmap(data->map, data->size))
+			error(ERR_SYS, "munmap() failed\n");
 }

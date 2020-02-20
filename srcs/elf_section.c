@@ -6,11 +6,11 @@
 /*   By: plamtenz <plamtenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 02:45:10 by plamtenz          #+#    #+#             */
-/*   Updated: 2020/02/19 03:06:41 by plamtenz         ###   ########.fr       */
+/*   Updated: 2020/02/20 02:51:53 by plamtenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bin_packer.h"
+#include <bin_packer.h>
 
 Elf64_Shdr          *goto_next_section_x64(t_packer *data, Elf64_Ehdr *elf64_hdr, size_t sect_index)
 {

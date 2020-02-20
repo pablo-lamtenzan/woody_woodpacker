@@ -1,25 +1,27 @@
-#include <woody_woodpacker.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   woody_woodpacker.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: plamtenz <plamtenz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/20 02:15:16 by plamtenz          #+#    #+#             */
+/*   Updated: 2020/02/20 02:52:46 by plamtenz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int         woody_woodpacker(char ac, char **argv)
+#include <bin_packer.h>
+
+void             woody_woodpacker(int ac, char **argv)
 {
-    size_t  size_of_file;
-    char    format;
+    t_packer    pack;
 
+    pack = (t_packer){ .fd = 0, .size = 0, .map = NULL, .key = NULL};
     if (ac != 2)
-        return (0); // ERR_USE
-    if (!(size_of_file = read_file(argv[1])))
-        return (0);
-    if ((format = get_format()) == FRMT_SIZE)
-        return (0);  // ERR_USE not a valid file as input
-    if (!(clone_allocation(size_of_file)))
-        return (0);
-    if (!t_format[format].packer(size_of_file))
-        return (0); // ERR_CORRUPT 
-    if (!write_clone())
-        return (0);
-    return (1);
+        error(ERR_USE, "woody_woodpacker has only one argument\n");
+    read_file(argv[1], &pack);
+    /* here gen a key */
+    identifier_criteria_x64(&pack);
+    infect_elf_file_x64(&pack);
+    free_map(&pack);
 }
-/* when i ret i have to create a function err who
- will clone_dealLocation() and
- free_addr()
- */

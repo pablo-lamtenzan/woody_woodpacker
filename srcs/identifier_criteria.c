@@ -6,11 +6,11 @@
 /*   By: plamtenz <plamtenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 03:11:43 by plamtenz          #+#    #+#             */
-/*   Updated: 2020/02/19 04:14:26 by plamtenz         ###   ########.fr       */
+/*   Updated: 2020/02/20 02:52:19 by plamtenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bin_packer.h"
+#include <bin_packer.h>
 
 void                        identifier_criteria_x64(t_packer *data)
 {
