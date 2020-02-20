@@ -6,7 +6,7 @@
 /*   By: plamtenz <plamtenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 02:43:27 by plamtenz          #+#    #+#             */
-/*   Updated: 2020/02/20 02:52:05 by plamtenz         ###   ########.fr       */
+/*   Updated: 2020/02/20 04:21:40 by plamtenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static char         big = false;
 
+__warn_unused_result
 uint16_t            endian_16bits(uint16_t x)
 {
     if (!big)
@@ -21,6 +22,7 @@ uint16_t            endian_16bits(uint16_t x)
     return ((x >> 8) | (x << 8));
 }
 
+__warn_unused_result
 uint32_t            endian_32bits(uint32_t x)
 {
     if (!big)
@@ -28,6 +30,7 @@ uint32_t            endian_32bits(uint32_t x)
     return ((x >> 24) | ((x & 0xff0000) >> 8) | ((x & 0xff00) << 8) | (x << 24))
 }
 
+__warn_unused_result
 uint64_t            endian_64bits(uint64_t x)
 {
     if (!big)
@@ -42,6 +45,7 @@ uint64_t            endian_64bits(uint64_t x)
 			| (x & 0x00000000000000ff) << 56);
 }
 
+__warn_unused_result
 void                isbig(char _isbig)
 {
     big = _isbig;

@@ -24,17 +24,17 @@
 /*
 **      --> DEFINE GLOBAL CONSTANTS
 */
-#define SUCCES              0
-#define FAILURE             -1
-#define SECRET_SIGNATURE    "42plamtenz"
-#define SECRET_SIZE         sizeof(SECRET_SIGNATURE)
-#define OUTPUT_NAME         "woody"
-#define ELF_MAGIC           0x464C457F
-#define PAYLOAD_SIZE        374
-#define PAGE_SIZE           4096
-#define ENTRY_SEGMENT       "entry segment"
-#define ENTRY_SECTION       "entry section"
-#define LAST_SECTION        "last section"
+#define SUCCES                  0
+#define FAILURE                 -1
+#define SECRET_SIGNATURE        "42plamtenz"
+#define SECRET_SIZE             sizeof(SECRET_SIGNATURE)
+#define OUTPUT_NAME             "woody"
+#define ELF_MAGIC               0x464C457F
+#define PAYLOAD_SIZE            374
+#define PAGE_SIZE               4096
+#define ENTRY_SEGMENT           "entry segment"
+#define ENTRY_SECTION           "entry section"
+#define LAST_SECTION            "last section"
 
 /*
 **      --> FORMAT CONSTANTS
@@ -64,38 +64,38 @@
 /*
 **      --> DATA STRUCTURES
 */
-typedef struct              s_segment
+typedef struct                  s_segment
 {
-    Elf64_Addr              phdr_addr;
-    Elf64_Off               phdr_off;
-    size_t                  phdr_filesz;             
-}                           t_segment;
+    Elf64_Addr                  phdr_addr;
+    Elf64_Off                   phdr_off;
+    size_t                      phdr_filesz;             
+}                               t_segment;
 
-typedef struct              s_section
+typedef struct                  s_section
 {
-    Elf64_Addr              shdr_addr;
-    Elf64_Off               shdr_off;
-    size_t                  shdr_filesz;             
-}                           t_section;
+    Elf64_Addr                  shdr_addr;
+    Elf64_Off                   shdr_off;
+    size_t                      shdr_filesz;             
+}                               t_section;
 
-typedef struct              s_elf64
+typedef struct                  s_elf64
 {
-    Elf64_Ehdr              *elf64_hdr;
-    Elf64_Addr              original_entry;
-    t_segment               segment;
-    t_section               section;
-}                           t_elf64;
+    Elf64_Ehdr                  *elf64_hdr;
+    Elf64_Addr                  original_entry;
+    t_segment                   segment;
+    t_section                   section;
+}                               t_elf64;
 
 /*
 **      --> PACKER STRUCTURE
 */
-typedef struct              s_packer
+typedef struct                  s_packer
 {
-    int                     fd;
-    size_t                  size;
-    char                    *map;
-    char                    key[SECRET_SIZE];
-}                           t_packer;
+    int                         fd;
+    size_t                      size;
+    char                        *map;
+    char                        key[SECRET_SIZE];
+}                               t_packer;
 
 /*
 **      --> .TEXT
@@ -104,7 +104,7 @@ typedef struct              s_packer
 /*
 **      --> ERROR MANAGEMENT
 */
-void                            error(char code, char *message);
+bool                            error(char code, char *message);
 
 /*
 **      --> PACKER METHODS
@@ -112,14 +112,14 @@ void                            error(char code, char *message);
 t_elf64                         *find_entry(t_packer *data);
 bool                            uptade_elf64_header(t_elf64 *elf64_hdr);
 bool                            infect_elf_file_x64(t_packer *data);
-void                            identifier_criteria_x64(t_packer *data);
-void                            create_infected_elf_x64(t_packer *pack, t_elf64 *data);
+bool                            identifier_criteria_x64(t_packer *data);
+bool                            create_infected_elf_x64(t_packer *pack, t_elf64 *data);
 
 /*
 **      --> INIT AND END
 */
-void                            read_file(char *filename, t_packer *data);
-void				            free_map(t_packer *data);
+bool                            read_file(char *filename, t_packer *data);
+bool				            free_map(t_packer *data);
 
 /*
 **      --> ITERATORS
@@ -142,8 +142,14 @@ uint64_t                        endian_64bits(uint64_t x);
 void                            isbig(char _isbig);
 
 /*
+**      --> UTILS
+*/
+void                            insert_signature(t_packer *pack);
+bool                            generate_key(char *key);
+
+/*
 **      --> WOODY WOODPACKER
 */
-int                             woody_woodpacker(int ac, char **argv);
+bool                             woody_woodpacker(int ac, char **argv);
 
 #endif

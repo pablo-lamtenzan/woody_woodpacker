@@ -6,7 +6,7 @@
 /*   By: plamtenz <plamtenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 00:12:46 by plamtenz          #+#    #+#             */
-/*   Updated: 2020/02/20 02:52:34 by plamtenz         ###   ########.fr       */
+/*   Updated: 2020/02/20 04:22:03 by plamtenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ static void             insert_payload(size_t *offset, const Elf64_Off size,
     }
 }
 
-static void             setup_payload(t_packer *pack, t_packer *infected, t_elf64 *data)
+__warn_unused_result
+static bool             setup_payload(t_packer *pack, t_packer *infected, t_elf64 *data)
 {
     size_t              offset;
     char                *src;
@@ -113,25 +114,32 @@ static void             setup_payload(t_packer *pack, t_packer *infected, t_elf6
     memcpy(infected->map + payload_start, payload, PAYLOAD_SIZE);
     encrypt();
     if (write(infected->fd, infected->map, eof) < (size_t)eof)
-        error(ERR_CORUPT, "can't write into packed binaty\n")
+        return (error(ERR_CORUPT, "can't write into packed binaty\n"));
+    return (true);
 }
 
-void                    create_infected_elf_x64(t_packer *pack, t_elf64 *data)
+__warn_unused_result
+bool                    create_infected_elf_x64(t_packer *pack, t_elf64 *data)
 {
     t_packer            infected;
 
     if ((infected.fd = open(OUTPUT_NAME, O_RDWR | O_CREAT | O_TRUNC, 0700)) < 0)
-        error(ERR_SYS, "Can't open the clone file\n");
+        return (error(ERR_SYS, "Can't open the clone file\n"));
     if ((infected.map = mmap(0, pack->size + PAGE_SIZE, PROT_READ | PROT_WRITE,
             MAP_PRIVATE | MAP_ANON, -1, 0)) == MAP_FAILED)
     {
         close(infected.fd);
-        error(ERR_SYS, "mmap() failed in new_infected.c\n");
+        return (error(ERR_SYS, "mmap() failed in new_infected.c\n"));
     }
     init_payload(pack, data);
-    setup_payload(pack, &infected, data);
+    if (!setup_payload(pack, &infected, data))
+    {
+        close(infected.fd);
+        return (false);
+    }
     if (close(infected.fd) < 0)
-        error(ERR_SYS, "can't no close the fd of the clone\n");
+        return (error(ERR_SYS, "can't no close the fd of the clone\n"));
     if (munmap(infected.map, pack->size + PAGE_SIZE))
-        error(ERR_SYS, "munmap failed in new_infected.c\n");
+        return (error(ERR_SYS, "munmap failed in new_infected.c\n"));
+    return (true);
 }

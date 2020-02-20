@@ -6,12 +6,13 @@
 /*   By: plamtenz <plamtenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 03:43:44 by plamtenz          #+#    #+#             */
-/*   Updated: 2020/02/20 02:51:39 by plamtenz         ###   ########.fr       */
+/*   Updated: 2020/02/20 04:21:10 by plamtenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <bin_packer.h>
 
+__warn_unused_result
 static bool         address_detection(char *code, void *arg1 , void *arg2)
 {
     if (!strcmp(code, ENTRY_SEGMENT))
@@ -32,9 +33,10 @@ static bool         address_detection(char *code, void *arg1 , void *arg2)
                 == ((t_elf64 *)(arg1))->segment.phdr_off + ((t_elf64 *)(arg2))->segment.p_filesz);
     }
     else
-        error(ERR_THROW, "bad code in address_detection in elf_file_detection.c\n");
+        return (error(ERR_THROW, "bad code in address_detection in elf_file_detection.c\n"));
 }
 
+__warn_unused_result
 static bool         uptate_entry_segment(t_packer *data, t_elf64 *elf)
 {
     bool            inc;
@@ -66,6 +68,7 @@ static bool         uptate_entry_segment(t_packer *data, t_elf64 *elf)
     return (true);
 }
 
+__warn_unused_result
 static bool         uptate_entry_section(t_packer *data, t_elf64 *elf)
 {
     bool            inc;
@@ -95,6 +98,7 @@ static bool         uptate_entry_section(t_packer *data, t_elf64 *elf)
     return (true);
 }
 
+__warn_unused_result
 t_elf64             *find_entry(t_packer *data)
 {
     t_elf64         elf;
@@ -106,6 +110,7 @@ t_elf64             *find_entry(t_packer *data)
     return (NULL);
 }
 
+__warn_unused_result
 bool                infect_elf_file_x64(t_packer *data)
 {
     t_elf64         *elf64_hdr;
