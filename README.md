@@ -12,7 +12,5 @@ Program takes an execution image, encrypt's data (packing at the same time) and 
 - Code an encrytor in ASM x64
 - Code a decriptor in ASM x64
 - Code payload i ASM x64
-- Error mesages management
 - ·32 bits architecture
 
-- And when all this will done: Recode all clean as fuck :)
